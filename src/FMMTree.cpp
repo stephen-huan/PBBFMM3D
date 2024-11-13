@@ -19,7 +19,8 @@ class BaseWrap : public H2_3D_Tree, public wrapper<H2_3D_Tree>
 BOOST_PYTHON_MODULE(FMMTree)
 
 {
-    PyEval_InitThreads();
+    // https://docs.python.org/3/whatsnew/3.9.html
+    Py_Initialize();
 
     class_<vector3>("vector3", init<double, double, double>())
     .def(init<>())

@@ -58,7 +58,8 @@ void convert_to_vecOfvec3(const object& obj, vector<vector3>& output)
 
 BOOST_PYTHON_MODULE(FMMCompute)
 {
-   PyEval_InitThreads();
+   // https://docs.python.org/3/whatsnew/3.9.html
+   Py_Initialize();
    class_<std::vector<vector3> >("vecOfvec3")
     .def(vector_indexing_suite<std::vector<vector3> >())
     ;
