@@ -7,7 +7,7 @@ public:
         this->symmetry = 1;
         this->kernelType = "myKernel";
     } 
-    double EvaluateKernel(vector3& targetpos, vector3& sourcepos) {
+    double EvaluateKernel(const vector3& targetpos, const vector3& sourcepos) {
         vector3 diff;        
         // Compute exp(-r)
         diff.x = sourcepos.x - targetpos.x;
