@@ -140,7 +140,7 @@ H2_3D_Compute<T>::H2_3D_Compute(T &FMMTree, const std::vector<vector3>& target, 
     double t0 = omp_get_wtime(); 
     FMMDistribute(&FMMTree.tree, this->target, this->source,Nf,Ns, FMMTree.tree_level);
     double t1 = omp_get_wtime(); 
-    cout  << " FMM distribute = " << t1-t0 << endl;
+    // cout  << " FMM distribute = " << t1-t0 << endl;
 
     FMMCompute(&FMMTree.tree,this->target, this->source,&charge[0],FMMTree.K,FMMTree.U,FMMTree.VT,FMMTree.Tkz,FMMTree.Ktable,FMMTree.Kweights,FMMTree.Cweights,
                    FMMTree.homogen,&FMMTree.cutoff,FMMTree.interpolation_order,FMMTree.dof, &output[0], FMMTree.use_chebyshev);
@@ -185,8 +185,8 @@ void H2_3D_Compute<T>::FMMDistribute(nodeT **A, vector3 *target, vector3 *source
 	free(targetlist);
     targetlist = NULL;
     
-    cout  << " Distribute points = " << t_points
-      << " Interaction list = " << t_il << endl;
+    // cout  << " Distribute points = " << t_points
+    //   << " Interaction list = " << t_il << endl;
 }
 
 template <typename T>
@@ -217,7 +217,7 @@ void H2_3D_Compute<T>::FMMCompute(nodeT **A, vector3 *target, vector3 *source, d
     double t_nearInteraction = t1 - t0;
   
 
-    cout << "upward time = " << t_upward << " interaction time = "  << t_interaction << " downward time = " << t_downward << endl << " neartargetCompute = " << t_nearInteraction << endl;
+    // cout << "upward time = " << t_upward << " interaction time = "  << t_interaction << " downward time = " << t_downward << endl << " neartargetCompute = " << t_nearInteraction << endl;
 
 }
 

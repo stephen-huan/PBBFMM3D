@@ -124,10 +124,10 @@ bool H2_3D_Tree::PrecomputeAvailable( char *Kmat, char *Umat, char *Vmat,
   if (fK!=NULL) fclose(fK);
   if (fU!=NULL) fclose(fU);
   if (fV!=NULL) fclose(fV);
-  if (avail)
-    cout <<"Precompute files exist.\n";
-  else
-    cout<<"Precompute files do NOT exist.\n";
+  // if (avail)
+  //   cout <<"Precompute files exist.\n";
+  // else
+  //   cout<<"Precompute files do NOT exist.\n";
   return avail;
 }
 
@@ -137,7 +137,7 @@ bool H2_3D_Tree::IsHomoKernel( double homogen ) {
 
 void H2_3D_Tree::StartPrecompute(double boxLen, int treeLevel, int interpolation_order, doft dof, int homogen, int symmetry, char *Kmat, char *Umat, char *Vmat, double alpha, double *Kweights, double epsilon, int use_chebyshev) {
 
-  printf("Generate precompute file ...\n");
+  // printf("Generate precompute file ...\n");
   FILE *fK = fopen(Kmat, "wb");
   fwrite(&boxLen, sizeof(double), 1, fK); // write box size
   fwrite(&treeLevel, sizeof(int), 1, fK); // write tree level
