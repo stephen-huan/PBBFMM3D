@@ -33,6 +33,7 @@ class Kernel:
     compute: Compute
     length_scale: float = 1.0
     tree: Tree | None = None
+    params: tuple[float, int, int, float, int] | None = None
 
     def __init__(
         self,
@@ -49,7 +50,7 @@ class Kernel:
         """Evaluate the kernel function."""
         assert x.ndim == 1 and y.ndim == 1, "Inputs are not points."
         assert x.size == 3 and y.size == 3, "Points are not 3d."
-        assert self.tree is not None, "Call .build() first."
+        assert self.tree is not None, "Call .init() first."
 
         xp = vector3()
         xp.x, xp.y, xp.z = x / self.length_scale
@@ -57,7 +58,7 @@ class Kernel:
         yp.x, yp.y, yp.z = y / self.length_scale
         return self.tree.EvaluateKernel(xp, yp)
 
-    def build(
+    def init(
         self,
         L: float,
         tree_level: int,
@@ -65,14 +66,23 @@ class Kernel:
         eps: float = 1e-5,
         use_chebyshev: bool = False,
     ) -> None:
-        """Build the tree."""
-        tree = self.base_kernel(
+        """Initialize the tree."""
+        self.params = (
             L / self.length_scale,
             tree_level,
             interpolation_order,
             eps,
             int(use_chebyshev),
         )
+        self.tree = self.base_kernel(*self.params)
+
+    def build(self) -> None:
+        """Build the tree."""
+        assert self.tree is not None, "Call .init() first."
+        assert self.params is not None, "Call .init() first."
+
+        # re-initialize tree, or else it gets progressively slower
+        tree = self.base_kernel(*self.params)
         tree.buildFMMTree()
         self.tree = tree
 

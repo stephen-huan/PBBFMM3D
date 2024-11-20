@@ -27,7 +27,7 @@ def gram(kernel: Kernel, x: np.ndarray) -> Callable[[np.ndarray], np.ndarray]:
         # seems to average values out for multiple columns
         assert y.ndim == 1, f"Got {y.ndim} columns, expected 1."
         assert y.shape[0] == n, f"Got a shape of {y.shape[0]}, expected {n}."
-        assert kernel.tree is not None, "Call kernel.build() first."
+        assert kernel.tree is not None, "Call kernel.init() first."
 
         y_c = vecOfdouble()
         convert_to_vecOfdouble(y, y_c)
@@ -37,7 +37,7 @@ def gram(kernel: Kernel, x: np.ndarray) -> Callable[[np.ndarray], np.ndarray]:
         # HACK: ensure output directory for pbbfmm3d
         Path("output").mkdir(exist_ok=True, parents=True)
         # segfaults if the tree is not rebuild every iteration
-        kernel.tree.buildFMMTree()
+        kernel.build()
         kernel.compute(kernel.tree, x_c, x_c, y_c, 1, out_c)
 
         out = np.empty(n, dtype=np.float64)
