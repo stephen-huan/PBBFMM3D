@@ -5,16 +5,16 @@ from setuptools import Extension, setup
 
 path = Path(__file__).parent
 
-mkl = env["MKLROOT"]
+useMKL = "MKLROOT" in env
+mkl = env.get("MKLROOT", None)
 libboost = f":libboost_python{env['PYTHON_VERSION'].replace('.', '')}.so"
 include_dirs = [
     env["BOOST_INC"],
     env["FFTW_INCLUDE"],
-    f"{mkl}/include",
     env["PYTHON_INCLUDE"],
     path / "include",
     path / "python",
-]
+] + ([f"{mkl}/include"] if useMKL else [])
 library_dirs = [env["BOOST_LIB"], env["FFTW_LIB"], env["PYTHON_LIB"]]
 libraries = [
     "fftw3",
@@ -24,18 +24,23 @@ libraries = [
     f"python{env['PYTHON_VERSION']}",
     libboost,
     "boost_system",
-]
+] + (["blas", "lapack"] if not useMKL else [])
 extra_compile_args = ["-Wall", "-O3", "-fopenmp", "-fPIC"]
 extra_link_args = [
     "-fopenmp",
-    "-Wl,--start-group",
-    f"{mkl}/lib/libmkl_intel_lp64.so",
-    f"{mkl}/lib/libmkl_sequential.so",
-    f"{mkl}/lib/libmkl_core.so",
-    "-Wl,--end-group",
     "-shared",
     "-Wl,--export-dynamic",
-]
+] + (
+    [
+        "-Wl,--start-group",
+        f"{mkl}/lib/libmkl_intel_lp64.so",
+        f"{mkl}/lib/libmkl_sequential.so",
+        f"{mkl}/lib/libmkl_core.so",
+        "-Wl,--end-group",
+    ]
+    if useMKL
+    else []
+)
 
 setup(
     ext_modules=[
