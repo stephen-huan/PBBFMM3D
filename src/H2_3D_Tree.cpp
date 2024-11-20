@@ -81,11 +81,11 @@ void H2_3D_Tree::PrecomputeM2L(double *Kweights, double boxLen, double alpha,
   char Vmat[50];
 
   if (use_chebyshev) {
-    sprintf(Kmat,"./../output/%sChebK%d.bin", kernelType.c_str(), interpolation_order);
-    sprintf(Umat,"./../output/%sChebU%d.bin", kernelType.c_str(), interpolation_order);
-    sprintf(Vmat,"./../output/%sChebV%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Kmat,"./output/%sChebK%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Umat,"./output/%sChebU%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Vmat,"./output/%sChebV%d.bin", kernelType.c_str(), interpolation_order);
   } else {
-    sprintf(Kmat,"./../output/%sUnifK%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Kmat,"./output/%sUnifK%d.bin", kernelType.c_str(), interpolation_order);
     sprintf(Umat,"bbfmm.c"); // uniform grid does not have U or V file,
     sprintf(Vmat,"bbfmm.c"); // so just make sure these two files exist
   }
