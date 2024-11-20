@@ -1,20 +1,8 @@
-from .FMMTree import Atree, vector3
-from .FMMCompute import (
-    Compute,
-    convert_to_numpy,
-    convert_to_vecOfdouble,
-    convert_to_vecOfvec3,
-    vecOfdouble,
-    vecOfvec3,
-)
+from . import kernels
+from .pbbfmm3d import cross_covariance, gram
 
 __all__ = [
-    "Atree",
-    "vector3",
-    "Compute",
-    "convert_to_numpy",
-    "convert_to_vecOfdouble",
-    "convert_to_vecOfvec3",
-    "vecOfdouble",
-    "vecOfvec3",
+    "cross_covariance",
+    "gram",
+    "kernels",
 ]
