@@ -1,5 +1,8 @@
 #include <H2_3D_Tree.hpp>
-#include <mykernel_python.hpp>
+#include <kernel_Matern12.hpp>
+#include <kernel_Matern32.hpp>
+#include <kernel_Matern52.hpp>
+#include <kernel_MaternInf.hpp>
 #include <boost/python.hpp>
 using namespace boost::python;
 
@@ -28,7 +31,19 @@ BOOST_PYTHON_MODULE(FMMTree)
     .def_readwrite("y", &vector3::y)
     .def_readwrite("z", &vector3::z);
     ;
-    class_<myKernel, boost::noncopyable >("myKernel", init<double, int, int, double, int>())
+    class_<kernel_Matern12, boost::noncopyable >("kernel_Matern12", init<double, int, int, double, int>())
+    .def("buildFMMTree", &H2_3D_Tree::buildFMMTree)
+    .def("EvaluateKernel", &H2_3D_Tree::EvaluateKernel)
+    ;
+    class_<kernel_Matern32, boost::noncopyable >("kernel_Matern32", init<double, int, int, double, int>())
+    .def("buildFMMTree", &H2_3D_Tree::buildFMMTree)
+    .def("EvaluateKernel", &H2_3D_Tree::EvaluateKernel)
+    ;
+    class_<kernel_Matern52, boost::noncopyable >("kernel_Matern52", init<double, int, int, double, int>())
+    .def("buildFMMTree", &H2_3D_Tree::buildFMMTree)
+    .def("EvaluateKernel", &H2_3D_Tree::EvaluateKernel)
+    ;
+    class_<kernel_MaternInf, boost::noncopyable >("kernel_MaternInf", init<double, int, int, double, int>())
     .def("buildFMMTree", &H2_3D_Tree::buildFMMTree)
     .def("EvaluateKernel", &H2_3D_Tree::EvaluateKernel)
     ;
