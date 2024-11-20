@@ -45,8 +45,8 @@ if __name__ == "__main__":
 
             fmm_kernel = from_sklearn(kernel)
             fmm_kernel2 = from_gpjax(kernel2)
-            fmm_kernel.build(L=1, tree_level=5, interpolation_order=5)
-            fmm_kernel2.build(L=1, tree_level=5, interpolation_order=5)
+            fmm_kernel.init(L=1, tree_level=5, interpolation_order=5)
+            fmm_kernel2.init(L=1, tree_level=5, interpolation_order=5)
             for i in range(N):
                 for j in range(N):
                     assert np.isclose(
