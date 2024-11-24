@@ -1,0 +1,4 @@
+exec/
+*.bin
+pbbfmm3d.egg-info/
+dist/
