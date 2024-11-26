@@ -1,5 +1,4 @@
 from collections.abc import Callable
-from pathlib import Path
 
 import numpy as np
 
@@ -34,8 +33,6 @@ def gram(kernel: Kernel, x: np.ndarray) -> Callable[[np.ndarray], np.ndarray]:
         out_c = vecOfdouble()
         out_c[:] = np.zeros(n)
 
-        # HACK: ensure output directory for pbbfmm3d
-        Path("output").mkdir(exist_ok=True, parents=True)
         # segfaults if the tree is not rebuild every iteration
         kernel.build()
         kernel.compute(kernel.tree, x_c, x_c, y_c, 1, out_c)
