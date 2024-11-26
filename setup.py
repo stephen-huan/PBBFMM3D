@@ -24,6 +24,7 @@ libraries = [
     f"python{env['PYTHON_VERSION']}",
     libboost,
     "boost_system",
+    "boost_filesystem",
 ] + (["blas", "lapack"] if not useMKL else [])
 extra_compile_args = ["-Wall", "-O3", "-fopenmp", "-fPIC"]
 extra_link_args = [
