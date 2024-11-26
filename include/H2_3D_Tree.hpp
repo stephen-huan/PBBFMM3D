@@ -5,6 +5,7 @@
 #ifndef __H2_3D_Tree_hpp__
 #define __H2_3D_Tree_hpp__
 #include <vector>
+#include <boost/filesystem.hpp>
 #include"bbfmm.h"
 #include"environment.hpp"
 #include <fftw3.h>    // fft transform of real input
@@ -30,10 +31,11 @@ public:
     int use_chebyshev;
     
 	doft cutoff;    // Compression index of SVD
-	char Kmat[50];  // File name for kernel interaction matrix K
-	char Umat[50];  // File name for matrix of singular vectors U
-	char Vmat[50];  // File name for matrix of singular vectors V
+	char Kmat[100];  // File name for kernel interaction matrix K
+	char Umat[100];  // File name for matrix of singular vectors U
+	char Vmat[100];  // File name for matrix of singular vectors V
     string kernelType;
+    boost::filesystem::path tmpdir;
 	
     double Ucomp, Vcomp;
 	

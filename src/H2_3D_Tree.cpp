@@ -4,6 +4,7 @@
 
 #include"H2_3D_Tree.hpp"
 #include"bbfmm.h"
+#include <boost/filesystem.hpp>
 
 #define HOMO_THRESHOLD  1e-1          // threshold for homogeneous kenrel
 #define FFTW_FLAG       FFTW_ESTIMATE // option for fftw plan type
@@ -35,6 +36,10 @@ H2_3D_Tree::H2_3D_Tree(double L, int tree_level, int interpolation_order,  doubl
     tree    =   NULL;
     skipLevel = 0;
     computed   =   false;
+
+    tmpdir = boost::filesystem::temp_directory_path()
+        / boost::filesystem::unique_path("pbbfmm3d-%%%%-%%%%-%%%%-%%%%");
+    boost::filesystem::create_directory(tmpdir);
 }
 
 void H2_3D_Tree::buildFMMTree() {
@@ -76,16 +81,16 @@ void H2_3D_Tree::PrecomputeM2L(double *Kweights, double boxLen, double alpha,
         double epsilon, doft dof, int treeLevel,
         double **K, double **U, double **VT, int use_chebyshev) {
 
-  char Kmat[50];
-  char Umat[50];
-  char Vmat[50];
+  char Kmat[100];
+  char Umat[100];
+  char Vmat[100];
 
   if (use_chebyshev) {
-    sprintf(Kmat,"./output/%sChebK%d.bin", kernelType.c_str(), interpolation_order);
-    sprintf(Umat,"./output/%sChebU%d.bin", kernelType.c_str(), interpolation_order);
-    sprintf(Vmat,"./output/%sChebV%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Kmat,"%s/%sChebK%d.bin", tmpdir.c_str(), kernelType.c_str(), interpolation_order);
+    sprintf(Umat,"%s/%sChebU%d.bin", tmpdir.c_str(), kernelType.c_str(), interpolation_order);
+    sprintf(Vmat,"%s/%sChebV%d.bin", tmpdir.c_str(), kernelType.c_str(), interpolation_order);
   } else {
-    sprintf(Kmat,"./output/%sUnifK%d.bin", kernelType.c_str(), interpolation_order);
+    sprintf(Kmat,"%s/%sUnifK%d.bin", tmpdir.c_str(), kernelType.c_str(), interpolation_order);
     sprintf(Umat,"bbfmm.c"); // uniform grid does not have U or V file,
     sprintf(Vmat,"bbfmm.c"); // so just make sure these two files exist
   }
@@ -1114,6 +1119,7 @@ H2_3D_Tree::~H2_3D_Tree() {
         VT = NULL;
     }
     dof = NULL;
+    boost::filesystem::remove_all(tmpdir);
 }
 
 
