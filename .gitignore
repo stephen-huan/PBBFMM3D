@@ -1,3 +1,6 @@
+result
+.direnv/
+.envrc
 exec/
 *.bin
 pbbfmm3d.egg-info/
